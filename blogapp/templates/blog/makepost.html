@@ -1,0 +1,46 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakePost</title>
+    <link rel="stylesheet"  href="{% static 'css/post.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/b6685504b8.js" crossorigin="anonymous"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon_io/site.webmanifest' %}">
+
+
+</head>
+<body>
+    <div class="twitter-draft">
+        <div class="twitter-draft">
+            <div class="profile-section">
+                <!-- <div class="profile-icon"> -->
+                    <img src="{% static 'images/salehpic.jpg' %}" alt="" class="profile-icon">
+                <!-- </div> -->
+               
+            </div>
+            <form method="POST" class="form"> 
+                {% csrf_token %}
+                 {{form}}  
+        <!-- <textarea class="title" placeholder="TITLE"></textarea> -->
+        <!-- <textarea class="tweet-input" placeholder='post ur gist'></textarea> -->
+        <input type="submit" value="Post" class="tweet-button">
+    </form>
+        <div class="tweet-footer">
+            <div class="left-icons">
+               <i class="fa-regular fa-image"></i>
+                <i class="fa-regular fa-face-smile"></i>
+         
+             
+            </div>
+         
+            
+        </div>
+    </div>
+</body>
+</html>

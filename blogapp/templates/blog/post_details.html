@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>twitter</title>
+    <link rel="stylesheet" href="https://fonts.google.com/icons?selected=Material+Symbols+Outlined:verified:FILL@0;wght@400;GRAD@0;opsz@24&icon.query=verified&icon.size=24&icon.color=%2375FB4C">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/b6685504b8.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet"  href="{% static 'css/blog.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon_io/site.webmanifest' %}">
+
+
+
+</head>
+<body>
+    
+    <div class="post">
+   
+       <div class="post-avater">
+           <img src="{{ post.author.profile.profile_picture.url}}" alt="Profile Picture">
+       </div>
+       <div class="post-body">
+           <div class="post-header">
+               <div class="post-nickname">
+                   <h3>{{post.author}} <span class="date">{{ post.time_since_posted }}</span>
+                   <span class="post-headerspecial">
+                       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#75FB4C"><path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm34-102 102-44 104 44 56-96 110-26-10-112 74-84-74-86 10-112-110-24-58-96-102 44-104-44-56 96-110 24 10 112-74 86 74 84-10 114 110 24 58 96Zm102-318Zm-42 142 226-226-56-58-170 170-86-84-56 56 142 142Z"/></svg><br>
+                       <p>{{user.nicknmae}}</p>
+                   </span>
+                   </h3>
+               </div>
+                <div class="post-headerdescription">
+                   <a class="title" href="{% url 'blog:post_details' post.id%}">{{ post.title }}</a> 
+                   <p class="post-text">{{ post.content|truncatewords:30|linebreaks }}</p>
+                </div>
+           </div>
+           <!-- <img src="images/profile-pic.jpeg" alt=""> -->
+           <div class="post-footer">
+               <i class="fa fa-comment"></i>
+               <i class="fa fa-retweet"></i>
+               <i class="fa fa-heart"></i>
+               <i class="fa fa-bookmark"></i>
+           </div>
+        
+       </div>
+    
+    </div>
+    <div>   {% if post.author == request.user %}
+        <a  class="sidebar-post"  href="{% url 'blog:post_edit' post.id %}">Edit</a>
+        <a  class="sidebar-post"  href="{%  url 'blog:post_delete' post.id %}">Delete</a>
+               {% endif  %}
+        </div>
+        <section>
+            <h6>Comments: {{ post.comment_count   }} </h6>
+
+
+              {%for comments in post.comments_set.all%}
+            <div>
+                    <p>{{comments.content}}</p>
+            </div>
+            {%endfor%}
+        </section>
+     <section>
+
+     <form action="" method="post">
+        {%csrf_token%}
+        {{c_form}}
+        <input type="submit" value="comment">
+     </form>
+
+     </section>
+</body>
+</html>

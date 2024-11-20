@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>twitter</title>
+    <link rel="stylesheet" href="https://fonts.google.com/icons?selected=Material+Symbols+Outlined:verified:FILL@0;wght@400;GRAD@0;opsz@24&icon.query=verified&icon.size=24&icon.color=%2375FB4C">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/b6685504b8.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet"  href="{% static 'css/blog.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon_io/site.webmanifest' %}">
+
+
+
+</head>
+
+
+
+<body>
+    <div clss="post">
+        you want to delete this post
+        <form action="" method="post">
+            {% csrf_token %}
+            <a href="{% url 'blog:post_details' post.id %}">Cancel</a>
+            <input type="submit" class="sidebar-post" value="Confirm">
+        </form>
+    </div>
+</body>
+
+</html>

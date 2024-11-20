@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap">
+    <script src="https://kit.fontawesome.com/b6685504b8.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon_io/site.webmanifest' %}">
+</head>
+<body>
+
+    <div class="profile-card">
+        <div class="profile-header">
+            <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="profile-img">
+            <h1>{{ user.profile.user.get_full_name }}</h1>
+            <h3>{{ user.profile.nickname }}</h3>
+            <h3>{{ user.profile.department }}</h3>
+            <h6>{{ user.username }}</h6>
+            <h6>EMAIL: {{ user.email }}</h6>
+            <p class="bio-description">  <SPan>Bio</SPan>
+                {{ user.profile.bio }}
+            </p>
+        </div>
+
+        <div class="tags">
+            {% for interest in profile.interests.all %}
+                <span>{{ interest.name }}</span>
+            {% empty %}
+                <span>No interests listed.</span>
+            {% endfor %}
+        </div>
+
+        <div class="social-links">
+            <h5>Social Links</h5>
+            <ul>
+                {% if profile.instagram_url %}
+                    <li><a href="{{ user.profile.instagram_url }}" target="_blank">{{ user.profile.instagram_url }}</a></li>
+                {% endif %}
+                {% if profile.linkedin %}
+                    <li><a href="{{ user.profile.linkedin_url }}" target="_blank">LinkedIn</a></li>
+                {% endif %}
+                {% if profile.facebook %}
+                    <li><a href="{{ user.profile.facebook_url }}" target="_blank">Facebook</a></li>
+                {% endif %}
+                {% if profile.tiktok %}
+                    <li><a href="{{ user.profile.tiktok_url }}" target="_blank">Tiktok</a></li>
+                {% endif %}
+                {% if profile.youtube %}
+                    <li><a href="{{ user.profile.youtube_url }}" target="_blank">YouTube</a></li>
+                {% endif %}
+            </ul>
+       
+
+ 
+
+    </div>
+    <div><a href="{% url 'users:users-edit'%}">Edit Profile</a></div>
+</body>
+</html>
