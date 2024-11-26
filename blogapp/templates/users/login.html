@@ -1,11 +1,11 @@
-{%load static%}
+<!-- {%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-      <!-- Link to external CSS -->
+      <!-- Link to external CSS 
     
       <link rel="stylesheet"  href="{% static 'css/login.css' %}">
       <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_io/apple-touch-icon.png' %}">
@@ -19,6 +19,15 @@
         <div class="login-form">
             <h2>Login</h2>
             <form action="#" method="POST">
+
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn" value="Login">Login</button>
@@ -26,7 +35,56 @@
             </form>
         </div>
         <a href="{% url 'password_reset' %}">Forget password</a>
+        <a href="{% url 'admin:index' %}" class="btn btn-primary">Go to Admin Panel</a>
+
+    </div>
+
+</body>
+</html> -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon_io/site.webmanifest' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <div class="login-form">
+            <h2>Login</h2>
+
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <!-- Display form only if there are no messages -->
+                <form action="#" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn" value="Login">Login</button>
+                    <p>Don't have an account? <a href="{% url 'users:users-sign-up' %}">sign-up</a></p>
+                </form>
+                <a href="{% url 'password_reset' %}">Forget password</a>
+            {% endif %}
+        </div>
+        
+        {% if not messages %}
+            <a href="{% url 'admin:index' %}" class="btn btn-primary">Go to Admin Panel</a>
+        {% endif %}
     </div>
 
 </body>
 </html>
+
