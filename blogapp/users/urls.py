@@ -6,7 +6,7 @@ app_name = 'users'
 
 urlpatterns = [
     path('users/', views.sign_up, name= 'users-sign-up'),
-    path('profile/', views.profile, name='profile'),
+     path('profile/<int:user_id>/', views.profile, name='profile'),
     path('edit/', views.edit, name= 'users-edit'),
     path('email-sent/', views.email_sent, name= 'email_sent'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'),  name='users-login'),

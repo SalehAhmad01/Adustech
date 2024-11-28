@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from .forms import signUpForm, UserUpdateForm, ProfileUpdateForm
@@ -12,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
 from django.http import HttpResponse
+from blog.models import Post
 
 # Create your views here.
 
@@ -69,10 +69,16 @@ def email_sent(request,):
 
 
 
-
 @login_required
-def profile(request):
-    return render(request, 'users/profile.html', {'profile': request.user.profile})
+def profile(request, user_id):
+    user = User.objects.get(id=user_id)  
+    posts = Post.objects.filter(author=user)  
+
+    context = {
+        'user': user,
+        'posts': posts
+    }
+    return render(request, 'users/profile.html', context)
 
 
 @login_required
@@ -86,7 +92,7 @@ def edit(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            return redirect('users:profile')  # Ensure 'profile' is a valid URL name in urls.py
+            return redirect('users:profile' , user_id=request.user.id)  # Ensure 'profile' is a valid URL name in urls.py
     else:
         # For GET request, instantiate forms with current user data
         u_form = UserUpdateForm(instance=request.user)

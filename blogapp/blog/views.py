@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Post
+from .models import Post , Repost
 from .forms import PostForm, PostUpdateForm ,CommentForm
 from django.contrib.auth.decorators import login_required
 
@@ -80,5 +80,19 @@ def post_delete(request,pk):
         post.delete()
         return redirect('blog:index',)
     return render(request,'blog/post_delete.html', {'post':post})
+
+
+
+# repost view
+@login_required
+def toggle_repost(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    has_reposted = Repost.objects.filter(user=request.user, post=post).exists()
+
+    context = {
+        'post': post,
+        'has_reposted': has_reposted,
+    }
+    return render(request, 'post_detail.html', context)
 
   

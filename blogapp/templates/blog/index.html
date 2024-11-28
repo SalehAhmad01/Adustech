@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,10 +72,19 @@
                     <p class="post-text">{{ post.content|truncatewords:30|linebreaks }}</p>
                  </div>
             </div>
-            <!-- <img src="images/profile-pic.jpeg" alt=""> -->
+          
             <div class="post-footer">
-                <i class="fa fa-comment"></i>
-                <i class="fa fa-retweet"></i>
+                <a class="title" href="{% url 'blog:post_details' post.id %}"><i class="fa fa-comment"></i></a>
+                {% if has_reposted %}
+                <a href="{% url 'toggle_repost' post.id %}">
+                    <i class="fa fa-retweet"></i> Undo Repost ({{ post.repost_count }})
+                </a>
+            {% else %}
+                <a href="{% url 'toggle_repost' post.id %}">
+                    <i class="fa fa-retweet"></i> Repost ({{ post.repost_count }})
+                </a>
+            {% endif %}
+            
                 <i class="fa fa-heart"></i>
                 <i class="fa fa-bookmark"></i>
             </div>
@@ -83,63 +93,7 @@
      
      </div>
      {% endfor %}
-     <!-- <div class="post">
-        <div class="post-avater">
-            <img src="images/muhd.jpg" alt="">
-        </div>
-        <div class="post-body">
-            <div class="post-header">
-                <div class="post-headertext">
-                    <h3>Muhd Bodejo
-                    <span class="post-headerspecial">
-                        <i class="fa-solid fa-certificate"></i></i><br>
-                        <p class="nicknam">@muhdbadejo</p>
-                    </span>
-                    </h3>
-                </div>
-                 <div class="post-headerdescription">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas accusantium nam, 
-                      </p>
-                 </div>
-            </div>
-            <img src="images/car2.jpeg" alt="">
-            <div class="post-footer">
-                <i class="fa fa-comment"></i>
-                <i class="fa fa-retweet"></i>
-                <i class="fa fa-heart"></i>
-                <i class="fa fa-bookmark"></i>
-            </div>
-        </div>
-     </div>
-     <div class="post">
-        <div class="post-avater">
-            <img src="images/daddy.jpg" alt="">
-        </div>
-        <div class="post-body">
-            <div class="post-header">
-                <div class="post-headertext">
-                    <h3>Ahmad Saleh Adamu
-                    <span class="post-headerspecial">
-                        <i class="fa-solid fa-certificate"></i></i><br>
-                        <p class="nicknam">@ahmadbadejo</p>
-                    </span>
-                    </h3>
-                </div>
-                 <div class="post-headerdescription">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas accusantium nam, 
-                      </p>
-                 </div>
-            </div>
-            <img src="images/dadpic.JPG" alt="">
-            <div class="post-footer">
-                <i class="fa fa-comment"></i>
-                <i class="fa fa-retweet"></i>
-                <i class="fa fa-heart"></i>
-                <i class="fa fa-bookmark"></i>
-            </div>
-        </div>
-     </div> -->
-     <!-- post ends -->
+    
 </div>
 
 <!-- widget start -->
@@ -161,7 +115,7 @@
  </div> 
  <!-- widget ends -->
   <div class="widget">
-    <button class="sidebar-post"><a href="{% url  'users:profile'%}">Profile</a></button>
+    <button class="sidebar-post"><a href="{% url  'users:profile' user.id%}">Profile</a></button>
     <button class="sidebar-post"><a href="{% url  'users:users-sign-up'%}">sign-up</a></button>
     <button class="sidebar-post"><a href="{% url  'users:users-login'%}">log-in</a></button>
     <form method="POST" action="{% url 'users:users-logout' %}">

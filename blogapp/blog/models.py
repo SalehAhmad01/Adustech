@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -11,16 +10,17 @@ class Post(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('-date_created',)  # Ensures new posts are on top
+        ordering = ('-date_created',)
 
     def comment_count(self):
         return self.comments_set.all().count()
-  
+
+    def repost_count(self):
+        return self.repost_set.count()
 
     def time_since_posted(self):
         now = timezone.now()
         date_created = timezone.localtime(self.date_created)
-
         time_difference = now - date_created
 
         if time_difference < timedelta(days=2):
@@ -40,22 +40,22 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-    
-
-
 
 class Comments(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField()
 
-    def comments(self):
-           return self.comments_set.all()
-  
+    def __str__(self):
+        return self.content
 
+class Repost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    date_reposted = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('user', 'post')  # Prevent duplicate reposts
 
-
-def __str__(self):
-    return self.content
-
+    def __str__(self):
+        return f"{self.user.username} reposted {self.post.title}"
